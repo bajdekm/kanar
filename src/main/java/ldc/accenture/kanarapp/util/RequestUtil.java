@@ -43,7 +43,7 @@ public class RequestUtil {
     }
 
     public static HttpResponse sendOAuthRequest(String authCode) {
-        String endpoint = "https://test.salesforce.com/services/oauth2/token";
+        String endpoint = "https://login.salesforce.com/services/oauth2/token";
         HttpResponse response = null;
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(endpoint);
