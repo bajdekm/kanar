@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Handshake Response</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+</head>
+<body>
+
+    <h1>request parameters:</h1>
+
+    <div>
+        <table>
+            <!--<tbody>-->
+                <tr th:each="item : ${parameters}">
+                    <td th:text="${item.key}"></td>
+                    <td th:text="${item.value}"></td>
+                </tr>
+
+            <!--</tbody>-->
+        </table>
+    </div>
+    <h1>Salesforce Response:</h1>
+
+    <p th:text="${sfresponse}"></p>
+
+
+
+</body>
+</html>
