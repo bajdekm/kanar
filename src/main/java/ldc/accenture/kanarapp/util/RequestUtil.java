@@ -43,7 +43,7 @@ public class RequestUtil {
     }
 
     public static HttpResponse sendOAuthRequest(String authCode) {
-        String endpoint = "https://login.salesforce.com/services/oauth2/token";
+        String endpoint = "https://test.salesforce.com/services/oauth2/token";
         HttpResponse response = null;
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(endpoint);
@@ -51,9 +51,9 @@ public class RequestUtil {
         List<NameValuePair> arguments = new ArrayList<>();
         arguments.add(new BasicNameValuePair("code",authCode));
         arguments.add(new BasicNameValuePair("grant_type","authorization_code"));
-        arguments.add(new BasicNameValuePair("client_id","3MVG9HxRZv05HarQhxIDO41HF6JsofYSs8p2ED98l1w7_R4bd4TNJksFuj7OuPr83s6_lJYbk_xSCkzQfI939"));
-        arguments.add(new BasicNameValuePair("client_secret","7791675824414918392"));
-        arguments.add(new BasicNameValuePair("redirect_uri","https://kanarapp.herokuapp.com/i/handshake"));
+        arguments.add(new BasicNameValuePair("client_id","3MVG9HxRZv05HarQtjSTFTJtOkxdwJakZL1ryiv8qhpFdlUyChqtdt2kbda12lsGWhH20YJ446wJUDs1f8J33"));
+        arguments.add(new BasicNameValuePair("client_secret","5145465745540914530"));
+        arguments.add(new BasicNameValuePair("redirect_uri","https://kanardefender.herokuapp.com/i/handshake"));
         arguments.add(new BasicNameValuePair("access_type","offline"));
 
         try{
