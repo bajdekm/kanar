@@ -41,6 +41,7 @@ public class IntegrationController {
         mov.addObject("parameters" , params);
         this.response = RequestUtil.sendOAuthRequest(this.authCode);
         String res = RequestUtil.getAuthInfo(this.response).toString();
+        log.error("RESP: " + res);
         this.access_token = RequestUtil.getAccessToken();
         mov.addObject("sfresponse",res);
         return mov;
