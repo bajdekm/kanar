@@ -1,7 +1,9 @@
 package ldc.accenture.kanarapp.util;
 
 import com.google.gson.Gson;
+import ldc.accenture.kanarapp.constans.Constants;
 import ldc.accenture.kanarapp.model.AuthInfo;
+import ldc.accenture.kanarapp.model.NotificationEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -19,6 +21,8 @@ import java.util.*;
 
 @Slf4j
 public class RequestUtil {
+
+    private static String auth_code;
 
     public static Map<String,String> getParameterMap(HttpServletRequest request){
         Map<String,String> paramMap = new HashMap<>();
@@ -43,18 +47,17 @@ public class RequestUtil {
     }
 
     public static HttpResponse sendOAuthRequest(String authCode) {
-        String endpoint = "https://login.salesforce.com/services/oauth2/token";
         HttpResponse response = null;
         CloseableHttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost(endpoint);
+        HttpPost post = new HttpPost(Constants.TOKEN_ENDPOINT);
 
         List<NameValuePair> arguments = new ArrayList<>();
         arguments.add(new BasicNameValuePair("code",authCode));
-        arguments.add(new BasicNameValuePair("grant_type","authorization_code"));
-        arguments.add(new BasicNameValuePair("client_id","3MVG9HxRZv05HarQtjSTFTJtOkxdwJakZL1ryiv8qhpFdlUyChqtdt2kbda12lsGWhH20YJ446wJUDs1f8J33"));
-        arguments.add(new BasicNameValuePair("client_secret","5145465745540914530"));
-        arguments.add(new BasicNameValuePair("redirect_uri","https://kanardefender.herokuapp.com/i/handshake"));
-        arguments.add(new BasicNameValuePair("access_type","offline"));
+        arguments.add(new BasicNameValuePair("grant_type",Constants.GRANT_TYPE));
+        arguments.add(new BasicNameValuePair("client_id",Constants.CLIENT_ID));
+        arguments.add(new BasicNameValuePair("client_secret",Constants.CLIENT_SECRET));
+        arguments.add(new BasicNameValuePair("redirect_uri",Constants.CALLBACK_ENDPOINT));
+        arguments.add(new BasicNameValuePair("access_type",Constants.ACCESS_TYPE));
 
         try{
             post.setEntity(new UrlEncodedFormEntity(arguments));
@@ -75,7 +78,32 @@ public class RequestUtil {
         }
         Gson gson = new Gson();
         AuthInfo toReturn = gson.fromJson(content , AuthInfo.class);
+        auth_code = toReturn.access_token;
         log.info("AuthInfo info: " + toReturn);
         return toReturn;
+    }
+
+    public static boolean sendNotification(NotificationEvent notificationEvent){
+        HttpResponse response = null;
+        CloseableHttpClient client = HttpClientBuilder.create().build();
+        HttpPost post = new HttpPost(Constants.INSERT_OBJECT_ENDPOINT);
+        post.addHeader("Authorization" , "Bearer " + auth_code);
+        post.addHeader("Content-Type" , "application/json");
+        List<NameValuePair> arguments = new ArrayList<>();
+        arguments.add(new BasicNameValuePair("grant_type",Constants.GRANT_TYPE));
+        arguments.add(new BasicNameValuePair("client_id",Constants.CLIENT_ID));
+        arguments.add(new BasicNameValuePair("client_secret",Constants.CLIENT_SECRET));
+        arguments.add(new BasicNameValuePair("redirect_uri",Constants.CALLBACK_ENDPOINT));
+        arguments.add(new BasicNameValuePair("access_type",Constants.ACCESS_TYPE));
+
+        try{
+            post.setEntity(new UrlEncodedFormEntity(arguments));
+            response = client.execute(post);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        log.info("RES "+response.toString());
+
+        return true;
     }
 }
