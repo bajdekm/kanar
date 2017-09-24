@@ -106,6 +106,7 @@ public class RequestUtil {
 
     public static String getAccessToken(Map<String,String> reqMap){
         String toReturn = new String();
+        log.info(">> reqMap begin");
         if(!reqMap.isEmpty() && reqMap.containsKey("access_token")){
             toReturn = reqMap.get("access_token");
             log.info("access_token " + toReturn);
