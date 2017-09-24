@@ -78,7 +78,6 @@ public class RequestUtil {
         }
         Gson gson = new Gson();
         AuthInfo toReturn = gson.fromJson(content , AuthInfo.class);
-        access_token = toReturn.access_token;
         log.info("AuthInfo info: " + toReturn);
         return toReturn;
     }
