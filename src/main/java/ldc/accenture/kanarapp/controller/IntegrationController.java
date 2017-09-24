@@ -66,7 +66,7 @@ public class IntegrationController {
         notificationEvent.setLongitude__c(longitude);
         notificationEvent.setLatitude__c(latitude);
 
-        RequestUtil.sendNotification(notificationEvent);
+        RequestUtil.sendNotification(notificationEvent,access_token);
         log.info(notificationEvent.toString());
         return mov;
     }
