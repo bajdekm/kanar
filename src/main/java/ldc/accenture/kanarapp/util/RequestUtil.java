@@ -84,7 +84,7 @@ public class RequestUtil {
     }
 
     public static boolean sendNotification(NotificationEvent notificationEvent){
-        log.info("notification begin");
+        log.error("notification begin " + auth_code);
         HttpResponse response = null;
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(Constants.INSERT_OBJECT_ENDPOINT);
