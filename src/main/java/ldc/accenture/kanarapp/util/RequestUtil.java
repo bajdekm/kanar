@@ -90,11 +90,10 @@ public class RequestUtil {
         post.addHeader("Authorization" , "Bearer " + auth_code);
         post.addHeader("Content-Type" , "application/json");
         List<NameValuePair> arguments = new ArrayList<>();
-        arguments.add(new BasicNameValuePair("grant_type",Constants.GRANT_TYPE));
-        arguments.add(new BasicNameValuePair("client_id",Constants.CLIENT_ID));
-        arguments.add(new BasicNameValuePair("client_secret",Constants.CLIENT_SECRET));
-        arguments.add(new BasicNameValuePair("redirect_uri",Constants.CALLBACK_ENDPOINT));
-        arguments.add(new BasicNameValuePair("access_type",Constants.ACCESS_TYPE));
+        arguments.add(new BasicNameValuePair("TramNr__c","1"));
+        arguments.add(new BasicNameValuePair("Longitude__c","141.99"));
+        arguments.add(new BasicNameValuePair("Latitude__c","334.55"));
+        arguments.add(new BasicNameValuePair("Comment__c","test comment"));
 
         try{
             post.setEntity(new UrlEncodedFormEntity(arguments));
