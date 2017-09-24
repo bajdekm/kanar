@@ -22,7 +22,7 @@ import java.util.*;
 @Slf4j
 public class RequestUtil {
 
-    private static String auth_code;
+    private static String access_token;
 
     public static Map<String,String> getParameterMap(HttpServletRequest request){
         Map<String,String> paramMap = new HashMap<>();
@@ -78,17 +78,17 @@ public class RequestUtil {
         }
         Gson gson = new Gson();
         AuthInfo toReturn = gson.fromJson(content , AuthInfo.class);
-        auth_code = toReturn.access_token;
+        access_token = toReturn.access_token;
         log.info("AuthInfo info: " + toReturn);
         return toReturn;
     }
 
     public static boolean sendNotification(NotificationEvent notificationEvent){
-        log.error("notification begin " + auth_code);
+        log.error("notification begin " + access_token);
         HttpResponse response = null;
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(Constants.INSERT_OBJECT_ENDPOINT);
-        post.addHeader("Authorization" , "Bearer " + auth_code);
+        post.addHeader("Authorization" , "Bearer " + access_token);
         post.addHeader("Content-Type" , "application/json");
         List<NameValuePair> arguments = new ArrayList<>();
         arguments.add(new BasicNameValuePair("TramNr__c","1"));
@@ -105,5 +105,11 @@ public class RequestUtil {
         log.info("RES "+response.toString());
 
         return true;
+    }
+
+    public static void setAccessToken(Map<String,String> reqMap){
+        if(!reqMap.isEmpty() && reqMap.containsKey("access_token")){
+            access_token = reqMap.get("access_token");
+        }
     }
 }
