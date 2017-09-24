@@ -79,6 +79,7 @@ public class RequestUtil {
         Gson gson = new Gson();
         AuthInfo toReturn = gson.fromJson(content , AuthInfo.class);
         access_token = toReturn.getAccess_token();
+        access_token = "dupal";
         log.info("AuthInfo info: " + toReturn);
         return toReturn;
     }
