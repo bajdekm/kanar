@@ -57,6 +57,7 @@ public class IntegrationController {
                                            @RequestParam(value="longitude", defaultValue = "0") String longitude,
                                            @RequestParam(value="latitude",defaultValue = "0") String latitude){
         ModelAndView mov = new ModelAndView("callback");
+        log.info("notification rm hello");
         NotificationEvent notificationEvent = new NotificationEvent();
         notificationEvent.setTramNr__c(tram_nr);
         notificationEvent.setComment__c(comment);
