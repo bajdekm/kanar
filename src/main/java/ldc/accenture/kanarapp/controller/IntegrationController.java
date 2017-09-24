@@ -23,6 +23,7 @@ import java.util.Map;
 public class IntegrationController {
 
     private String authCode;
+    private String access_token;
     private HttpResponse response;
 
     @RequestMapping()
@@ -36,8 +37,8 @@ public class IntegrationController {
         ModelAndView mov = new ModelAndView("callback");
         Map<String,String> params = RequestUtil.getParameterMap(request);
         this.authCode = RequestUtil.getAuthorizationCodeFromRequestMap(params);
-        RequestUtil.setAccessToken(params);
-        log.info("code: " + this.authCode);
+        this.access_token = RequestUtil.getAccessToken(params);
+        log.info("code: " + this.authCode + " access_token: " + this.access_token);
         mov.addObject("parameters" , params);
         this.response = RequestUtil.sendOAuthRequest(this.authCode);
         String res = RequestUtil.getAuthInfo(this.response).toString();

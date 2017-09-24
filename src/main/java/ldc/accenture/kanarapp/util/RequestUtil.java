@@ -22,8 +22,6 @@ import java.util.*;
 @Slf4j
 public class RequestUtil {
 
-    private static String access_token;
-
     public static Map<String,String> getParameterMap(HttpServletRequest request){
         Map<String,String> paramMap = new HashMap<>();
         Enumeration enumeration = request.getParameterNames();
@@ -82,7 +80,7 @@ public class RequestUtil {
         return toReturn;
     }
 
-    public static boolean sendNotification(NotificationEvent notificationEvent){
+    public static boolean sendNotification(NotificationEvent notificationEvent,String access_token){
         log.error("notification begin " + access_token);
         HttpResponse response = null;
         CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -90,10 +88,10 @@ public class RequestUtil {
         post.addHeader("Authorization" , "Bearer " + access_token);
         post.addHeader("Content-Type" , "application/json");
         List<NameValuePair> arguments = new ArrayList<>();
-        arguments.add(new BasicNameValuePair("TramNr__c","1"));
-        arguments.add(new BasicNameValuePair("Longitude__c","141.99"));
-        arguments.add(new BasicNameValuePair("Latitude__c","334.55"));
-        arguments.add(new BasicNameValuePair("Comment__c","test comment"));
+        arguments.add(new BasicNameValuePair("TramNr__c",notificationEvent.getTramNr__c()));
+        arguments.add(new BasicNameValuePair("Longitude__c",notificationEvent.getLongitude__c()));
+        arguments.add(new BasicNameValuePair("Latitude__c",notificationEvent.getLatitude__c()));
+        arguments.add(new BasicNameValuePair("Comment__c",notificationEvent.getComment__c()));
 
         try{
             post.setEntity(new UrlEncodedFormEntity(arguments));
@@ -106,9 +104,12 @@ public class RequestUtil {
         return true;
     }
 
-    public static void setAccessToken(Map<String,String> reqMap){
+    public static String getAccessToken(Map<String,String> reqMap){
+        String toReturn = new String();
         if(!reqMap.isEmpty() && reqMap.containsKey("access_token")){
-            access_token = reqMap.get("access_token");
+            toReturn = reqMap.get("access_token");
+            log.info("access_token " + toReturn);
         }
+        return toReturn;
     }
 }
