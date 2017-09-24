@@ -37,10 +37,10 @@ public class IntegrationController {
         ModelAndView mov = new ModelAndView("callback");
         Map<String,String> params = RequestUtil.getParameterMap(request);
         this.authCode = RequestUtil.getAuthorizationCodeFromRequestMap(params);
-        this.access_token = RequestUtil.getAccessToken(params);
         log.info("code: " + this.authCode + " access_token: " + this.access_token);
         mov.addObject("parameters" , params);
         this.response = RequestUtil.sendOAuthRequest(this.authCode);
+        this.access_token = RequestUtil.getAccessToken();
         String res = RequestUtil.getAuthInfo(this.response).toString();
         mov.addObject("sfresponse",res);
         return mov;
@@ -66,7 +66,7 @@ public class IntegrationController {
         notificationEvent.setLongitude__c(longitude);
         notificationEvent.setLatitude__c(latitude);
 
-        RequestUtil.sendNotification(notificationEvent,access_token);
+        RequestUtil.sendNotification(notificationEvent,this.access_token);
         log.info(notificationEvent.toString());
         return mov;
     }

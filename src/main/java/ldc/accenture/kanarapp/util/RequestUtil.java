@@ -22,6 +22,8 @@ import java.util.*;
 @Slf4j
 public class RequestUtil {
 
+    private static String access_token;
+
     public static Map<String,String> getParameterMap(HttpServletRequest request){
         Map<String,String> paramMap = new HashMap<>();
         Enumeration enumeration = request.getParameterNames();
@@ -76,6 +78,7 @@ public class RequestUtil {
         }
         Gson gson = new Gson();
         AuthInfo toReturn = gson.fromJson(content , AuthInfo.class);
+        access_token = toReturn.access_token;
         log.info("AuthInfo info: " + toReturn);
         return toReturn;
     }
@@ -104,13 +107,7 @@ public class RequestUtil {
         return true;
     }
 
-    public static String getAccessToken(Map<String,String> reqMap){
-        String toReturn = new String();
-        log.info(">> reqMap begin");
-        if(!reqMap.isEmpty() && reqMap.containsKey("access_token")){
-            toReturn = reqMap.get("access_token");
-            log.info("access_token " + toReturn);
-        }
-        return toReturn;
+    public static String getAccessToken(){
+        return access_token;
     }
 }
