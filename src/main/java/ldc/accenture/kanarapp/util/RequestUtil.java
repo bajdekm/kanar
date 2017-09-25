@@ -73,6 +73,7 @@ public class RequestUtil {
         String content = null;
         try {
             content = EntityUtils.toString(entity);
+            log.info("json content to String " + content);
         } catch (IOException e) {
             e.printStackTrace();
         }
