@@ -26,6 +26,7 @@ public class IntegrationController {
     private String authCode;
     private String access_token;
     private HttpResponse response;
+    private RequestUtil requestUtil = RequestUtil.getRequestUtilInstance();
 
     @RequestMapping()
     public String getRequest(){
@@ -36,16 +37,16 @@ public class IntegrationController {
     @RequestMapping(value ="/handshake", method= RequestMethod.GET)
     public ModelAndView salesforceHanshake(HttpServletRequest request){
         ModelAndView mov = new ModelAndView("callback");
-        Map<String,String> params = RequestUtil.getParameterMap(request);
-        this.authCode = RequestUtil.getAuthorizationCodeFromRequestMap(params);
+        Map<String,String> params = requestUtil.getParameterMap(request);
+        this.authCode = requestUtil.getAuthorizationCodeFromRequestMap(params);
         log.error("\n\n\n\n\n diablica\n\n\n\n");
         mov.addObject("parameters" , params);
-        this.response = RequestUtil.sendOAuthRequest(this.authCode);
-        AuthInfo aInf = RequestUtil.getAuthInfo(this.response);
+        this.response = requestUtil.sendOAuthRequest(this.authCode);
+        AuthInfo aInf = requestUtil.getAuthInfo(this.response);
         String res = aInf.toString();
         log.error("RESP: " + aInf);
         System.out.println("dupsztal nysztal");
-        this.access_token = RequestUtil.getAccessToken();
+        this.access_token = requestUtil.getAccessToken();
         mov.addObject("sfresponse",res);
         return mov;
     }
@@ -70,7 +71,7 @@ public class IntegrationController {
         notificationEvent.setLongitude__c(longitude);
         notificationEvent.setLatitude__c(latitude);
 
-        RequestUtil.sendNotification(notificationEvent,this.access_token);
+        requestUtil.sendNotification(notificationEvent,this.access_token);
         log.info(notificationEvent.toString());
         return mov;
     }

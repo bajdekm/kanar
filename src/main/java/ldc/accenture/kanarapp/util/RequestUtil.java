@@ -22,11 +22,22 @@ import java.util.*;
 @Slf4j
 public class RequestUtil {
 
-    private static String access_token;
+    protected static RequestUtil instance = null;
 
-    private static String responseStr;
+    protected RequestUtil(){}
 
-    public static Map<String,String> getParameterMap(HttpServletRequest request){
+    public static RequestUtil getRequestUtilInstance(){
+        if(instance == null){
+            instance = new RequestUtil();
+        }
+        return instance;
+    }
+
+    private  String access_token;
+
+    private  String responseStr;
+
+    public  Map<String,String> getParameterMap(HttpServletRequest request){
         Map<String,String> paramMap = new HashMap<>();
         Enumeration enumeration = request.getParameterNames();
         String singleParamName;
@@ -38,7 +49,7 @@ public class RequestUtil {
         return paramMap;
     }
 
-    public static String getAuthorizationCodeFromRequestMap(Map<String,String> reqMap){
+    public  String getAuthorizationCodeFromRequestMap(Map<String,String> reqMap){
         String toReturn = new String();
         if(!reqMap.isEmpty() && reqMap.containsKey("code")){
             toReturn = reqMap.get("code");
@@ -48,7 +59,7 @@ public class RequestUtil {
         return toReturn;
     }
 
-    public static HttpResponse sendOAuthRequest(String authCode) {
+    public  HttpResponse sendOAuthRequest(String authCode) {
         HttpResponse response = null;
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(Constants.TOKEN_ENDPOINT);
@@ -71,7 +82,7 @@ public class RequestUtil {
         return response;
     }
 
-    public static AuthInfo getAuthInfo(HttpResponse response){
+    public  AuthInfo getAuthInfo(HttpResponse response){
         HttpEntity entity = response.getEntity();
         String content = null;
         try {
@@ -88,7 +99,7 @@ public class RequestUtil {
         return toReturn;
     }
 
-    public static boolean sendNotification(NotificationEvent notificationEvent,String access_token){
+    public  boolean sendNotification(NotificationEvent notificationEvent,String access_token){
         log.error("notification begin " + access_token);
         HttpResponse response = null;
         CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -112,7 +123,7 @@ public class RequestUtil {
         return true;
     }
 
-    public static String getAccessToken(){
+    public  String getAccessToken(){
         return access_token;
     }
 }
