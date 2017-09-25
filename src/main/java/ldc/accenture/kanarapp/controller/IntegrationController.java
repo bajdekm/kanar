@@ -1,5 +1,6 @@
 package ldc.accenture.kanarapp.controller;
 
+import ldc.accenture.kanarapp.model.AuthInfo;
 import ldc.accenture.kanarapp.model.NotificationEvent;
 import ldc.accenture.kanarapp.util.RequestUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -40,8 +41,9 @@ public class IntegrationController {
         log.error("\n\n\n\n\n diablica\n\n\n\n");
         mov.addObject("parameters" , params);
         this.response = RequestUtil.sendOAuthRequest(this.authCode);
-        String res = RequestUtil.getAuthInfo(this.response).toString();
-        log.error("RESP: " + res);
+        AuthInfo aInf = RequestUtil.getAuthInfo(this.response);
+        String res = aInf.toString();
+        log.error("RESP: " + aInf);
         System.out.println("dupsztal nysztal");
         this.access_token = RequestUtil.getAccessToken();
         mov.addObject("sfresponse",res);
