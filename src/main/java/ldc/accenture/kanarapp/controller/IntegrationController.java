@@ -38,6 +38,7 @@ public class IntegrationController {
     public ModelAndView salesforceHanshake(HttpServletRequest request){
         ModelAndView mov = new ModelAndView("callback");
         Map<String,String> params = requestUtil.getParameterMap(request);
+        log.info("    PARAMS    " + params);
         this.authCode = requestUtil.getAuthorizationCodeFromRequestMap(params);
         log.error("\n\n\n\n\n diablica\n\n\n\n");
         mov.addObject("parameters" , params);
