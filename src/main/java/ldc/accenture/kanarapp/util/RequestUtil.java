@@ -24,6 +24,8 @@ public class RequestUtil {
 
     private static String access_token;
 
+    private static String responseStr;
+
     public static Map<String,String> getParameterMap(HttpServletRequest request){
         Map<String,String> paramMap = new HashMap<>();
         Enumeration enumeration = request.getParameterNames();
@@ -62,6 +64,7 @@ public class RequestUtil {
         try{
             post.setEntity(new UrlEncodedFormEntity(arguments));
             response = client.execute(post);
+            log.info("REQUEST EXECUTED");
         } catch (IOException e) {
             e.printStackTrace();
         }
