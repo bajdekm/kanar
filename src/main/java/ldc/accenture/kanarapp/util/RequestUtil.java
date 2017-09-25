@@ -75,10 +75,10 @@ public class RequestUtil {
         try{
             post.setEntity(new UrlEncodedFormEntity(arguments));
             response = client.execute(post);
-            log.info("REQUEST EXECUTED");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        log.info("RES1" + response.toString());
         return response;
     }
 
