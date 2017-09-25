@@ -37,7 +37,7 @@ public class IntegrationController {
         ModelAndView mov = new ModelAndView("callback");
         Map<String,String> params = RequestUtil.getParameterMap(request);
         this.authCode = RequestUtil.getAuthorizationCodeFromRequestMap(params);
-        log.info("code: " + this.authCode + " access_token: " + this.access_token);
+        log.error("\n\n\n\n\n diablica\n\n\n\n");
         mov.addObject("parameters" , params);
         this.response = RequestUtil.sendOAuthRequest(this.authCode);
         String res = RequestUtil.getAuthInfo(this.response).toString();
